@@ -9,8 +9,6 @@ if isempty(se.AvailableSerialPorts())
 else
     hold on
     title('         Yeah if you can leave the graph open, that would be great');
-    ylabel('Lux');
-    xlabel('Time(millisecond)');
     a=se.AvailableSerialPorts();
     port=serial(a{1});
     fopen(port);
@@ -18,20 +16,18 @@ else
     see=instrhwinfo('serial');
     pause(100/1000);%wait to make sure the arduino finishes at least a few loops
 %% loop start here, loop until the arduino is unplugged(try bluetooth see if it works)
-    while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
+    while isempty(see.SerialPorts)~=1 & %check if there is any arduino plugged in
     a=fscanf(port);
     b=textscan(a,'%d');% %d only don't use %f
     %build a matrix of data
     if length(b{1})==1%sometimes matlab failed to get the second data column(happen only at large number)
         continue
     end
-    if count>2
     d(count,1)=b{1}(1);
     d(count,2)=b{1}(2);
     plot(b{1}(1),b{1}(2),'-*k');
     pause(20/1000)
     see=instrhwinfo('serial');
-    end
     count=count+1;
     end
 %% cleaning up and process the data
