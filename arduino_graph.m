@@ -20,6 +20,9 @@ else
 %% loop start here, loop until the arduino is unplugged(try bluetooth see if it works)
     while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
     a=fscanf(port);
+    if isempty(a)
+        continue
+    end
     b=textscan(a,'%d');% %d only don't use %f
     %build a matrix of data
     if length(b{1})==1%sometimes matlab failed to get the second data column(happen only at large number)
@@ -30,9 +33,10 @@ else
     d(count,2)=b{1}(2);
     plot(b{1}(1),b{1}(2),'-*k');
     pause(20/1000)
-    see=instrhwinfo('serial');
+    
     end
     count=count+1;
+    see=instrhwinfo('serial');
     end
 %% cleaning up and process the data
     stopasync(port);
