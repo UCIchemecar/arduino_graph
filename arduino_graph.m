@@ -21,22 +21,21 @@ else
     while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
     a=fscanf(port);
     if isempty(a)
+        see=instrhwinfo('serial');
         continue
     end
     b=textscan(a,'%d');% %d only don't use %f
     %build a matrix of data
-    if length(b{1})==1%sometimes matlab failed to get the second data column(happen only at large number)
-        continue
-    end
     if count>2
     d(count,1)=b{1}(1);
     d(count,2)=b{1}(2);
     plot(b{1}(1),b{1}(2),'-*k');
-    pause(20/1000)
+   
     
     end
     count=count+1;
     see=instrhwinfo('serial');
+    pause(20/1000)
     end
 %% cleaning up and process the data
     stopasync(port);
