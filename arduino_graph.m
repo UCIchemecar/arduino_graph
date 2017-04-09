@@ -9,7 +9,7 @@ if isempty(se.AvailableSerialPorts())
 else
     hold on
     title('         Yeah if you can leave the graph open, that would be great');
-    ylabel('Lux');
+    ylabel('error');
     xlabel('Time(millisecond)');
     a=se.AvailableSerialPorts();
     port=serial(a{1});
@@ -29,8 +29,8 @@ else
     if count>2
     d(count,1)=b{1}(1);
     d(count,2)=b{1}(2);
-    plot(b{1}(1),b{1}(2),'-*k');
-   
+    plot(b{1}(1),b{1}(2),'b--o');
+    text(double(b{1}(1)),double(b{1}(2)),strcat('   error=  ',num2str(b{1}(2))));
     
     end
     count=count+1;
